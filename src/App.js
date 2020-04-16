@@ -3,13 +3,12 @@ import Grid from './components/Grid'
 import Header from './components/Header'
 import Selector from './components/Selector'
 
-
 import './App.css';
 
 export default class App extends Component {
 
   state = {
-    box: [
+    boxes: [
       [8, 0, 0, 4, 0, 6, 0, 0, 7],
       [0, 0, 0, 0, 0, 0, 4, 0, 0],
       [0, 1, 0, 0, 0, 0, 6, 5, 0],
@@ -32,24 +31,71 @@ export default class App extends Component {
       7: '#FFD54F',
       8: '#E0E0E0',
       9: '#F8BBD0'
-    }
+    },
+
+    selectedColor: null
   }
 
-  gridColor = (num) => {
+  gridColor = (colorCode) => {
     return {
-      backgroundColor: this.state.colors[num]
+      backgroundColor: this.state.colors[colorCode]
     }
   }
 
+  selectColor = (code) => {
+    let colors = Object.keys(this.state.colors).slice(1, 10)
+    let selectedColor = colors.filter((col, index) => index === code)[0]
+    this.setState({
+      selectedColor : Number(selectedColor)
+    })
+    console.log(this.state.selectedColor)
+  }
+
+  assignColor = (gridIndex, boxIndex, selectedColor) => {
+    console.log(gridIndex, boxIndex, selectedColor)
+    const { boxes } = this.state
+    console.log(boxes[boxIndex][gridIndex])
+
+    let newBoxes = boxes.map((box, index) => {
+      if(index === boxIndex) {
+        return box.map((grid, colorCode) => {
+          if(colorCode === gridIndex) {
+            return selectedColor
+          }
+          else {
+            return grid
+          }
+        })
+      }
+      return box
+    })
+
+    console.log(newBoxes)
+    console.log(boxes)
+
+    this.setState({
+      boxes: newBoxes
+    })
+  }
+  
   render() {
 
-    const { box, colors } = this.state
+    const { boxes, colors, selectedColor } = this.state
 
     return (
       <div className="body">
       <Header colors={colors}/>
-      <Grid box={box} colors={colors} gridColor={this.gridColor}/>
-      <Selector colors={colors}/>
+      <Grid 
+        boxes={boxes} 
+        colors={colors} 
+        gridColor={this.gridColor} 
+        selectedColor={selectedColor} 
+        assignColor={this.assignColor}
+      />
+      <Selector 
+        colors={colors} 
+        selectColor={this.selectColor}
+      />
     </div>
     )
   }

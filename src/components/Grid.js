@@ -1,16 +1,18 @@
 import React from 'react'
 
-export default function Grid({ box, gridColor }) {
-    
+export default function Grid({ boxes, gridColor, selectedColor, assignColor }) {
     return (
         <div className="board">
-            {box.map((array, index) => {
+            {boxes.map((array, boxIndex) => {
                 return (
-                    <div key={index} className="box">
-                        {array.map((num, ind) => {
+                    <div key={boxIndex} className="box">
+                        {array.map((colorCode, gridIndex) => {
                             return (
-                                <div style={gridColor(num)} key={ind} className="grid">
-                                    <h2>{num}</h2>
+                                <div 
+                                    style={gridColor(colorCode)} 
+                                    key={gridIndex} 
+                                    className="grid" 
+                                    onClick={() => assignColor(gridIndex, boxIndex, selectedColor)}>
                                 </div>
                             )
                         })}
