@@ -20,11 +20,6 @@ body {
   box-shadow: 0px 5px 5px #cfcfcf;
 }
 
-.box {
-  width: auto;
-  height: auto;
-}
-
 .grid,
 .selector-grid {
   background: #ffffff;

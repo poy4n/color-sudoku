@@ -48,18 +48,15 @@ export default class App extends Component {
     this.setState({
       selectedColor : Number(selectedColor)
     })
-    console.log(this.state.selectedColor)
   }
 
   assignColor = (gridIndex, boxIndex, selectedColor) => {
-    console.log(gridIndex, boxIndex, selectedColor)
     const { boxes } = this.state
-    console.log(boxes[boxIndex][gridIndex])
 
     let newBoxes = boxes.map((box, index) => {
       if(index === boxIndex) {
         return box.map((grid, colorCode) => {
-          if(colorCode === gridIndex) {
+          if(colorCode === gridIndex && !box.includes(selectedColor)) {
             return selectedColor
           }
           else {
@@ -69,9 +66,9 @@ export default class App extends Component {
       }
       return box
     })
-
-    console.log(newBoxes)
-    console.log(boxes)
+    
+    // console.log(newBoxes)
+    // console.log(boxes)
 
     this.setState({
       boxes: newBoxes
